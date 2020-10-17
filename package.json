@@ -1,0 +1,26 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "backend of Thresh Talk",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon src/index.js",
+    "test": "test"
+  },
+  "author": "Antonio Hamilton",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "7.11.0"
+  },
+  "dependencies": {
+    "celebrate": "^13.0.3",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "2.21.2",
+    "express": "^4.17.1",
+    "mongoose": "^5.10.9",
+    "node-uuid": "^1.4.8",
+    "nodemon": "^2.0.5"
+  }
+}
