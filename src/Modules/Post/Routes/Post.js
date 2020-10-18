@@ -3,7 +3,7 @@ const PostController = require('../Controller/Post');
 
 const idValidation = celebrate({
   [Segments.PARAMS]: Joi.object().keys({
-    _id: Joi.string().uuid().required(),
+    id: Joi.string().uuid().required(),
   }),
 });
 
