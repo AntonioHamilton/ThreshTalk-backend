@@ -1,0 +1,246 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Thresh Talk API",
+    "description": "Thresh Talk api its for create post like in a social media",
+    "contact": {
+      "email": "antoniohamilton.s.freitas@gmail.com"
+    },
+    "license": {
+      "name": "Thresh talk"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://virtserver.swaggerhub.com/AntonioHamilton/ThreshTalk/1.0.0",
+      "description": "SwaggerHub API Auto Mocking"
+    },
+    {
+      "url": "localhost:3001",
+      "description": "Thresh Talk post Api"
+    }
+  ],
+  "paths": {
+    "/posts": {
+      "get": {
+        "tags": [
+          "Posts"
+        ],
+        "summary": "search all posts",
+        "operationId": "searchPosts",
+        "responses": {
+          "200": {
+            "description": "search and show all posts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Post"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "internal error server"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Posts"
+        ],
+        "summary": "create a new post",
+        "operationId": "createPosts",
+        "requestBody": {
+          "description": "posts items to add",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Post"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "create a new post"
+          },
+          "500": {
+            "description": "internal error server"
+          }
+        }
+      }
+    },
+    "/posts/{id}": {
+      "get": {
+        "tags": [
+          "Posts"
+        ],
+        "summary": "search for one post~",
+        "description": "uses an uuid param for looking for a post",
+        "operationId": "searchOnePost",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of post in uuid format",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "search for one post"
+          },
+          "404": {
+            "description": "don't found a post"
+          },
+          "500": {
+            "description": "internal error server"
+          }
+        }
+      }
+    },
+    "/posts/{id}/comments": {
+      "get": {
+        "tags": [
+          "Comments"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of post in uuid format to get comments",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "search for all comments on a post",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Post/properties/comments"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "don't found a post"
+          },
+          "500": {
+            "description": "internal error server"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Comments"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of post in uuid format",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "comment": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "create a new comment"
+          },
+          "404": {
+            "description": "don't found a post"
+          },
+          "500": {
+            "description": "internal error server"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Post": {
+        "required": [
+          "id",
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "d290f1ee-6c54-4b01-90e6-d701748f0851"
+          },
+          "message": {
+            "type": "string",
+            "example": "any_message"
+          },
+          "image": {
+            "type": "string",
+            "example": "any_url_image"
+          },
+          "comments": {
+            "type": "array",
+            "example": [
+              "any_comment1",
+              "any_comment2"
+            ],
+            "items": {
+              "type": "string"
+            }
+          },
+          "timestamps": {
+            "$ref": "#/components/schemas/timestamps"
+          }
+        }
+      },
+      "timestamps": {
+        "properties": {
+          "createdAt": {
+            "type": "string",
+            "format": "date"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      }
+    }
+  }
+}
