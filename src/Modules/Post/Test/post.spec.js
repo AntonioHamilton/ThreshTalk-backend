@@ -1,0 +1,56 @@
+const request = require('supertest');
+const app = require('../../../Config/app')();
+const databaseHelper = require('../../../Helpers/databaseHelper');
+const uuid = require('node-uuid');
+
+const Post = require('../Model');
+
+describe('Unit tests of posts', () => {
+  beforeAll(async () => {
+    await databaseHelper.openConnection();
+  });
+
+  afterAll(async () => {
+    await Post.deleteMany({});
+    await databaseHelper.closeConnection();
+  });
+
+  describe('created post tests', () => {
+    test('Should create a new post', async () => {
+      const res = await request(app).post('/posts').send({
+        image: 'any_string_image',
+        message: 'any_message',
+      });
+      expect(res.status).toBe(201);
+    });
+
+    test('Should not create a post without message', async () => {
+      const res = await request(app).post('/posts').send({
+        image: 'any_string_image',
+      });
+      expect(res.status).toBe(500);
+    });
+  });
+
+  describe('read post tests', () => {
+    test('Should return all posts', async () => {
+      const res = await request(app).get('/posts');
+      expect(res.status).toBe(200);
+    });
+  });
+
+  describe('readOne post tests', () => {
+    test('Should get id of one post and return it', async () => {
+      const allPosts = await request(app).get('/posts');
+      const id = allPosts.body[0].id;
+      const res = await request(app).get(`/posts/${id}`);
+      expect(res.status).toBe(200);
+    });
+
+    test('Should not get post with an nonexistent', async () => {
+      const id = uuid.v1();
+      const res = await request(app).get(`/posts/${id}`);
+      expect(res.status).toBe(404);
+    });
+  });
+});
