@@ -11,7 +11,6 @@ module.exports = {
         return res.status(201).send({ message: 'Post created' });
       })
       .catch((err) => {
-        console.log(err);
         return res.status(500);
       });
   },
@@ -24,7 +23,6 @@ module.exports = {
         return res.status(200).send(data);
       })
       .catch((err) => {
-        console.log(err);
         return res.status(500);
       });
   },
@@ -40,7 +38,6 @@ module.exports = {
         return res.status(200).send(data);
       })
       .catch((err) => {
-        console.log(err);
         return res.status(500);
       });
   },

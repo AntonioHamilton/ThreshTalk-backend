@@ -7,17 +7,19 @@ module.exports = {
     return Post.findOne({ id })
       .select({ comments: 1 })
       .then((result) => {
+        if (!result) {
+          res.status(404).send({ message: 'Not Found' });
+        }
         Post.updateOne(
           { id },
           {
             comments: [...result.comments, comment],
           }
         ).then(() => {
-          return res.status(200).send({ message: 'A new comment was made' });
+          return res.status(201).send({ message: 'A new comment was made' });
         });
       })
       .catch((err) => {
-        console.log(err);
         return res.status(500);
       });
   },
@@ -33,7 +35,6 @@ module.exports = {
         return res.status(200).send(comments);
       })
       .catch((err) => {
-        console.log(err);
         return res.status(500);
       });
   },
