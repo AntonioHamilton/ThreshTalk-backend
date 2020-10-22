@@ -13,10 +13,6 @@
   },
   "servers": [
     {
-      "url": "https://virtserver.swaggerhub.com/AntonioHamilton/ThreshTalk/1.0.0",
-      "description": "SwaggerHub API Auto Mocking"
-    },
-    {
       "url": "localhost:3001",
       "description": "Thresh Talk post Api"
     }
@@ -102,6 +98,36 @@
           },
           "404": {
             "description": "don't found a post"
+          },
+          "500": {
+            "description": "internal error server"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Posts"
+        ],
+        "summary": "delete one post",
+        "description": "uses an uuid to delete one post",
+        "operationId": "deleteOnePost",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of post in uuid format",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "post was deleted"
           },
           "500": {
             "description": "internal error server"
