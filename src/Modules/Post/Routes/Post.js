@@ -21,7 +21,10 @@ const postRoutes = (routes) => {
       PostController.create
     );
 
-  routes.route('/posts/:id').get(idValidation, PostController.readOne);
+  routes
+    .route('/posts/:id')
+    .get(idValidation, PostController.readOne)
+    .delete(idValidation, PostController.delete);
 };
 
 module.exports = postRoutes;

@@ -20,6 +20,7 @@ const PostSchema = new mongoose.Schema(
     },
     comments: {
       type: Array,
+      default: [],
     },
   },
   {

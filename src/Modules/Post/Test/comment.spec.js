@@ -5,17 +5,12 @@ const uuid = require('node-uuid');
 
 const Post = require('../Model');
 
-describe('Unit tests of posts', () => {
+describe('integration tests of posts', () => {
   beforeAll(async () => {
     await databaseHelper.openConnection();
     await request(app).post('/posts').send({
       message: 'any_message',
     });
-  });
-
-  afterAll(async () => {
-    await Post.deleteMany({});
-    await databaseHelper.closeConnection();
   });
 
   describe('addComment tests', () => {
@@ -73,5 +68,10 @@ describe('Unit tests of posts', () => {
       const res = await request(app).get(`/posts/${newId}/comments`);
       expect(res.status).toBe(500);
     });
+  });
+
+  afterAll(async () => {
+    await Post.deleteMany({});
+    await databaseHelper.closeConnection();
   });
 });

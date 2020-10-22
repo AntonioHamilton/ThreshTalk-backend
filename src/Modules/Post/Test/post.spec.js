@@ -5,14 +5,10 @@ const uuid = require('node-uuid');
 
 const Post = require('../Model');
 
-describe('Unit tests of posts', () => {
+describe('integration tests of posts', () => {
   beforeAll(async () => {
     await databaseHelper.openConnection();
-  });
-
-  afterAll(async () => {
     await Post.deleteMany({});
-    await databaseHelper.closeConnection();
   });
 
   describe('created post tests', () => {
@@ -67,5 +63,19 @@ describe('Unit tests of posts', () => {
       const res = await request(app).get(`/posts/${id}`);
       expect(res.status).toBe(500);
     });
+  });
+
+  describe('delete post tests', () => {
+    test('Should delete one post', async () => {
+      const allPosts = await request(app).get('/posts');
+      const id = allPosts.body[0].id;
+      const res = await request(app).delete(`/posts/${id}`);
+      expect(res.status).toBe(200);
+    });
+  });
+
+  afterAll(async () => {
+    await Post.deleteMany({});
+    await databaseHelper.closeConnection();
   });
 });
